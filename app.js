@@ -11,11 +11,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());  
 app.use(bodyParser.json());
 
-// Mongo Database.
+// Mongo Database
 var MongoClient = require("mongodb").MongoClient;
 var url = "mongodb://localhost:27017/";
 
-// Server Routing.
+// Server Routing
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
