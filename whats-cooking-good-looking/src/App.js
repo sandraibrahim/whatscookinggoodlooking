@@ -3,23 +3,23 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Navbar from "./components/navbar.component";
-import ExercisesList from "./components/exercises-list.component";
-import EditExercise from "./components/edit-exercise.component";
-import CreateExercise from "./components/create-exercise.component";
+import IngredientsList from "./components/ingredients-list.component";
+import EditIngredients from "./components/edit-ingredients.component";
+import AddIngredient from "./components/add-ingredient.component";
 import CreateUser from "./components/create-user.component";
 
 function App() {
   return (
     <Router>
-      <Navbar />
       <div className = "container">
-      <br/>
-      <Routes>
-        <Route path = "/" element={<ExercisesList />} />
-        <Route path = "/edit/:id" element={<EditExercise />} />
-        <Route path = "/create" element={<CreateExercise />} />
-        <Route path = "/user" element={<CreateUser />} />
-      </Routes>
+        <Navbar />
+        <br/>
+        <Routes>
+          <Route path = "/" element={<IngredientsList />} />
+          <Route path = "/edit/:id" element={<EditIngredients />} />
+          <Route path = "/addingredient" element={<AddIngredient />} />
+          <Route path = "/user" element={<CreateUser />} />
+        </Routes>
       </div>
     </Router>
   );

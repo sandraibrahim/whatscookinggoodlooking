@@ -12,20 +12,18 @@ router.route('/').get((req, res) => {
 // Routing Post Requests.
 router.route('/addingredient').post((req, res) => {
   const category = req.body.category;
-  const quantity = Number(req.body.quantity);
+  const quantity = req.body.quantity;
   const name = req.body.name;
-  const username = req.body.username;
-  const expiration_date = Date.parse(req.body.expiration_date);
+  const expiration_date = req.body.expiration_date;
 
   const newIngredients = new Ingredients({
       category,
       quantity,
       name,
-      username,
       expiration_date,
     });
 
-  newIngredient.save()
+  newIngredients.save()
     .then(() => res.json('Ingredient added!'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -34,6 +32,22 @@ router.route('/addingredient').post((req, res) => {
 router.route('/:id').delete((req, res) => {
   Ingredients.findByIdAndDelete(req.params.id)
     .then(() => res.json('Ingredient deleted.'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+// UPDATE
+router.route('/update/:id').post((req, res) => {
+  Ingredients.findById(req.params.id)
+    .then(ingredient => {
+      ingredient.category = req.body.category;
+      ingredient.quantity = req.body.quantity;
+      ingredient.name = Number(req.body.name);
+      ingredient.expiration_date = Date.parse(req.body.expiration_date);
+
+      ingredient.save()
+        .then(() => res.json('Ingredient updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

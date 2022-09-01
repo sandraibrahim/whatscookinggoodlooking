@@ -1,12 +1,16 @@
 // Dependencies.
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 8080;
 
+// Setting up basic middleware for all Express requests
+app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
+app.use(bodyParser.json()); // Send JSON responses
 app.use(cors());
 app.use(express.json());
 
@@ -31,5 +35,5 @@ app.use('/affirmations', affirmationsRouter);
 
 // Start Server on Port.
 app.listen(port, () => {
-    console.log('Server is running on port: 8080');
+    console.log('Server is running on port ' + port);
 });

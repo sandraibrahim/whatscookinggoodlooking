@@ -8,7 +8,6 @@ const ingredientsSchema = new Schema({
     category:{type: String, required: true, trim: true},
     quantity:{type: Number, required: true},
     name:{type: String, required: true, unique: true, trim: true},
-    username:{type: String, required: true, trim: true},
     expiration_date:{type: Date, required: true},
 },{
     timestamps: true,
