@@ -9,6 +9,13 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// Get Specific Ingredient.
+router.route('/:id').get((req, res) => {
+  Ingredients.findById(req.params.id)
+    .then(ingredient => res.json(ingredient))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 // Routing Post Requests.
 router.route('/addingredient').post((req, res) => {
   const category = req.body.category;
@@ -36,12 +43,12 @@ router.route('/:id').delete((req, res) => {
 });
 
 // UPDATE
-router.route('/update/:id').post((req, res) => {
+router.route('/edit/:id').post((req, res) => {
   Ingredients.findById(req.params.id)
     .then(ingredient => {
       ingredient.category = req.body.category;
-      ingredient.quantity = req.body.quantity;
-      ingredient.name = Number(req.body.name);
+      ingredient.quantity = Number(req.body.quantity);
+      ingredient.name = req.body.name;
       ingredient.expiration_date = Date.parse(req.body.expiration_date);
 
       ingredient.save()

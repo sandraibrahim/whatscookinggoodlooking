@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
+import { useParams } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 
 let options = [
@@ -19,7 +20,7 @@ let options = [
   {label: 'Other', value: 'Other'},
 ]
 
-export default class EditIngredients extends Component {
+class EditIngredients extends Component {
   constructor(props) {
     super(props);
 
@@ -34,12 +35,12 @@ export default class EditIngredients extends Component {
       quantity: 0,
       name: '',
       expiration_date: new Date(),
-    }
+  }
   }
 
   componentDidMount() {
-    // ERROR HERE
-    axios.get('http://localhost:8080/ingredients/'+ this.props.match.params.id)
+    const id = window.location.href.split('/')[4]
+    axios.get('http://localhost:8080/ingredients/'+ id)
       .then(response => {
         this.setState({
           category : response.data.category,
@@ -92,10 +93,10 @@ export default class EditIngredients extends Component {
     }
 
     console.log(ingredient);
-
+    const id = window.location.href.split('/')[4]
     // sends object to get added in server
-    axios.post('http://localhost:8080/ingredients/update/'+this.props.match.params.id, ingredient)
-    .then(res => console.log(res.data));
+    axios.post('http://localhost:8080/ingredients/edit/'+id, ingredient)
+    .then(res =>  window.location = '/');
     
   }
 
@@ -161,3 +162,10 @@ export default class EditIngredients extends Component {
     )
   }
 }
+
+export default (props) => (
+  <EditIngredients
+  {...props}
+  params = {useParams()}
+  />
+)

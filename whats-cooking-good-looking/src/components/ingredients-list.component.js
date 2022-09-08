@@ -10,12 +10,8 @@ const Ingredient = props => (
         <td>{props.ingredients.expiration_date.substring(0,10)}</td>
         <td>
             {/* ERROR HERE */}
-            <Link 
-                to={"/edit/"+props.ingredients._id}
-                others = {props} 
-            >
-                    Edit
-            </Link> | 
+            <Link to={"/edit/"+props.ingredients._id}> Edit </Link> 
+            | 
             <a href="#" onClick={() => { props.deleteIngredient(props.ingredients._id) }}>Delete</a>
         </td>
     </tr>
@@ -27,13 +23,13 @@ export default class IngredientsList extends Component {
 
         this.deleteIngredient = this.deleteIngredient.bind(this);
 
-        this.state = {ingredeints : []};
+        this.state = {ingredients : []};
     }
 
     componentDidMount(){
         axios.get('http://localhost:8080/ingredients/')
         .then(response => {
-            this.setState({ingredeints: response.data})
+            this.setState({ingredients: response.data})
         })
         .catch((error) => {
             console.log(error);
@@ -49,8 +45,8 @@ export default class IngredientsList extends Component {
         })
     }
 
-    ingredeintList(){
-        return this.state.ingredeints.map(currentingredient => {
+    ingredientList(){
+        return this.state.ingredients.map(currentingredient => {
             return <Ingredient ingredients = {currentingredient} deleteIngredient={this.deleteIngredient} key={currentingredient._id}/>;
         })
     }
@@ -69,7 +65,7 @@ export default class IngredientsList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    { this.ingredeintList() }
+                    { this.ingredientList() }
                 </tbody>
                 </table>
             </div>

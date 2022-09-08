@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 let options = [
+    {label: 'Choose Category', value: ''},
     {label: 'Fruit', value: 'Fruit'},
     {label: 'Vegetables', value: 'Vegetables'},
     {label: 'Dairy', value: 'Dairy'},
@@ -81,7 +82,7 @@ export default class AddIngredient extends Component {
 
         // sends object to get added in server
         axios.post('http://localhost:8080/ingredients/addingredient', ingredient)
-        .then(res => console.log(res.data));
+        .then(res => window.location = '/');
         
     }
 
