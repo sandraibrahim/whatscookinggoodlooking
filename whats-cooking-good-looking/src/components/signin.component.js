@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function SignIn({ setJWT }) {
+  let navigate = useNavigate();
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
   const handleSubmit = async e => {
     e.preventDefault();
     axios.post('http://localhost:8080/signin', { username, password })
-      .then(data => setJWT(data.data.token))
-
-
+      .then(data => {
+        setJWT(data.data.token);
+        navigate("ingredients");
+      })
+      .catch(function (error) {
+        if (error.response.status === 422) {
+          console.log("Missing Username and/or Password!")
+        }
+        else if (error.response.status === 404) {
+          console.log("User not found :((")
+        }
+        else if (error.response.status === 400) {
+          console.log("Incorrect Password")
+        }
+        else {
+          console.log("Something went wrong. Please try again.")
+        }
+      })
   }
 
   return (
@@ -31,7 +47,11 @@ export default function SignIn({ setJWT }) {
           <button type="submit">Submit</button>
         </div>
       </form>
-    </div>
+      <button color="primary" className="px-4" onClick={() => navigate("signup")}>
+        Don't have an account? Sign Up!
+      </button>
+    </div >
+
   )
 }
 
