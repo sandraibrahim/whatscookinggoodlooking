@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../auth-provider";
 
 export default function SignIn({ setJWT }) {
   let navigate = useNavigate();
+  const auth = useAuth();
+
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+
 
   const handleSubmit = async e => {
     e.preventDefault();
     axios.post('http://localhost:8080/signin', { username, password })
+      // User is validated
       .then(data => {
-        setJWT(data.data.token);
-        navigate("ingredients");
+        auth.login(data);
       })
       .catch(function (error) {
         if (error.response.status === 422) {

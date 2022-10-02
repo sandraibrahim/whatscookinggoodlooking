@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./auth";
+import React from 'react';
 
 const AuthContext = createContext();
 
@@ -12,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     // call this function when you want to authenticate the user
     const login = async (data) => {
         setUser(data);
-        navigate("/profile");
+        navigate("/ingredients");
     };
 
     // call this function to sign out logged in user
@@ -21,15 +22,15 @@ export const AuthProvider = ({ children }) => {
         navigate("/", { replace: true });
     };
 
-    //   const value = useMemo(
-    //     () => ({
-    //       user,
-    //       login,
-    //       logout
-    //     }),
-    //     [user]
-    //   );
-    //   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    const value = useMemo(
+        () => ({
+            user,
+            login,
+            logout
+        }),
+        [user]
+    );
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

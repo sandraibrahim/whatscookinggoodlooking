@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useAuth } from "../auth-provider";
 
-export default function SignUp({ setJWT }) {
+export default function SignUp() {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
     const [email, setEmail] = useState();
     const [fname, setFname] = useState();
     const [lname, setLname] = useState();
+    const auth = useAuth();
 
     const handleSubmit = async e => {
         e.preventDefault();
-        axios.post('http://localhost:8080/signup', { username, password })
-            .then(data => setJWT(data.data.token))
+
+        const user = {
+            username: username,
+            password: password,
+            email: email,
+            first_name: fname,
+            last_name: lname
+        }
+
+        axios.post('http://localhost:8080/signup', user)
+            .then(data =>
+                auth.login(data)
+            )
             .catch(function (error) {
                 if (error.response.status === 422) {
                     console.log("Missing Required Credentials")

@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from "../auth-provider";
 
-
-// TODO: Turn to functional and accept selected prop.
-export default class Navbar extends Component {
-  render() {
-    return (
-      <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/" className="navbar-brand">Recipe Maker</Link>
-        <div className="collpase navbar-collapse">
-          <ul className="navbar-nav mr-auto">
-            <li className="navbar-item">
-              <Link to="/ingredients" className="nav-link">Ingredients</Link>
-            </li>
-            <li className="navbar-item">
-              <Link to="/addingredient" className="nav-link">Add Ingredient</Link>
-            </li>
-            <li className="navbar-item">
-              <Link to="/user" className="nav-link">Create User</Link>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    );
-  }
+// TODO: fix navbar/logout feature (use effect?)
+export default function Navbar() {
+  const auth = useAuth();
+  return (
+    <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
+      <div className="navbar-brand">Recipe Maker</div>
+      <div className="collpase navbar-collapse">
+        <ul className="navbar-nav mr-auto">
+          <li className="navbar-item">
+            <Link to="/ingredients" className="nav-link">Ingredients</Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/addingredient" className="nav-link">Add Ingredient</Link>
+          </li>
+          <li className="navbar-item">
+            <button onClick={auth.logout()}>Logout</button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  );
 }

@@ -1,39 +1,60 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 let options = [
-    {label: 'Choose Category', value: ''},
-    {label: 'Fruit', value: 'Fruit'},
-    {label: 'Vegetables', value: 'Vegetables'},
-    {label: 'Dairy', value: 'Dairy'},
-    {label: 'Meat', value: 'Meat'},
-    {label: 'Condiment', value: 'Condiment'},
-    {label: 'Seafood', value: 'Seafood'},
-    {label: 'Herbs/Spices', value: 'Herbs/Spices'},
-    {label: 'Baking', value: 'Baking'},
-    {label: 'Oils/Fats', value: 'Oils/Fats'},
-    {label: 'Beverages', value: 'Beverages'},
-    {label: 'Pasta', value: 'Pasta'},
-    {label: 'Bread', value: 'Bread'},
-    {label: 'Other', value: 'Other'},
+    { label: 'Choose Category', value: '' },
+    { label: 'Fruit', value: 'Fruit' },
+    { label: 'Vegetables', value: 'Vegetables' },
+    { label: 'Dairy', value: 'Dairy' },
+    { label: 'Meat', value: 'Meat' },
+    { label: 'Condiment', value: 'Condiment' },
+    { label: 'Seafood', value: 'Seafood' },
+    { label: 'Herbs/Spices', value: 'Herbs/Spices' },
+    { label: 'Baking', value: 'Baking' },
+    { label: 'Oils/Fats', value: 'Oils/Fats' },
+    { label: 'Beverages', value: 'Beverages' },
+    { label: 'Pasta', value: 'Pasta' },
+    { label: 'Bread', value: 'Bread' },
+    { label: 'Other', value: 'Other' },
 ]
 
+{/*
+CLASS/COMPONENT NAME
+    AddIngredient - allows user to add ingredient to their "pantry" 
+    and adds to data base
+
+SYNOPSIS
+    AddIngredient variables   
+        category --> category/type of ingredeient
+        quantity --> amount of ingredeient
+        name --> name of ingredient
+        expiration_date --> expiration date of ingredient                                                        
+
+DESCRIPTION
+
+        This class takes care of creating a form for the user to fill out
+        to add ingredients into their pantry. When they fill out the form
+        with all of the required fields it will call the server to then add 
+        the information to the database.
+*/}
+
 export default class AddIngredient extends Component {
-    constructor(props){
+    // Constructor.
+    constructor(props) {
         super(props);
 
-        // binds this command with the current value
+        // Binds this command with the current value of variable.
         this.onChangeCategory = this.onChangeCategory.bind(this);
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
         this.onChangeExpirationDate = this.onChangeExpirationDate.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        
-        // default values
+
+        // Default values.
         this.state = {
-            category : '',
+            category: '',
             quantity: 0,
             name: '',
             expiration_date: new Date(),
@@ -42,10 +63,9 @@ export default class AddIngredient extends Component {
     }
 
     // Setters
-
-    onChangeCategory(e){
+    onChangeCategory(e) {
         this.setState({
-            category : e.target.value
+            category: e.target.value
         })
     }
 
@@ -53,13 +73,13 @@ export default class AddIngredient extends Component {
         this.setState({
             quantity: e.target.value
         })
-        }
+    }
 
     onChangeName(e) {
         this.setState({
             name: e.target.value
         })
-        }
+    }
 
     onChangeExpirationDate(date) {
         this.setState({
@@ -67,10 +87,11 @@ export default class AddIngredient extends Component {
         })
     }
 
-    onSubmit(e){
+    // Called when submit button is pressed.
+    onSubmit(e) {
         e.preventDefault();
 
-        // creates ingredient object
+        // Creates ingredient object.
         const ingredient = {
             category: this.state.category,
             quantity: this.state.quantity,
@@ -80,68 +101,68 @@ export default class AddIngredient extends Component {
 
         console.log(ingredient);
 
-        // sends object to get added in server
+        // Sends object to get added in server.
         axios.post('http://localhost:8080/ingredients/addingredient', ingredient)
-        .then(res => window.location = '/');
-        
+            .then(res => window.location = '/ingredients');
+
     }
 
-    render(){
-        return(
-            // Creates a form
+    render() {
+        return (
+            // Creates a form.
             <div>
                 <h3>Add New Ingredient</h3>
                 <form onSubmit={this.onSubmit}>
-                    <div className="form-group"> 
-                    <label>Category: </label>
-                    <select
-                        required
-                        className="form-control"
-                        value={this.state.category}
-                        // Lists Categories
-                        onChange={this.onChangeCategory}>
-                        {
-                            options.map(function(option) {
-                            return <option 
-                                value={option.value}>{option.label}
-                                </option>;
-                            })
-                        }
-                    </select>
-                    </div>
-
-                    <div className="form-group"> 
-                    <label>Quantity: </label>
-                    <input  type="text"
-                        required
-                        className="form-control"
-                        value={this.state.quantity}
-                        onChange={this.onChangeQuantity}
-                        />
-                    </div>
-
-                    <div className="form-group"> 
-                    <label>Ingredient Name: </label>
-                    <input  type="text"
-                        required
-                        className="form-control"
-                        value={this.state.name}
-                        onChange={this.onChangeName}
-                        />
-                    </div>
-                    
                     <div className="form-group">
-                    <label>Expiration Date: </label>
-                    <div>
-                        <DatePicker
-                        selected={this.state.expiration_date}
-                        onChange={this.onChangeExpirationDate}
-                        />
-                    </div>
+                        <label>Category: </label>
+                        <select
+                            required
+                            className="form-control"
+                            value={this.state.category}
+                            // Lists Categories
+                            onChange={this.onChangeCategory}>
+                            {
+                                options.map(function (option) {
+                                    return <option
+                                        value={option.value}>{option.label}
+                                    </option>;
+                                })
+                            }
+                        </select>
                     </div>
 
                     <div className="form-group">
-                    <input type="submit" value="Add Ingredient" className="btn btn-primary" />
+                        <label>Quantity: </label>
+                        <input type="text"
+                            required
+                            className="form-control"
+                            value={this.state.quantity}
+                            onChange={this.onChangeQuantity}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Ingredient Name: </label>
+                        <input type="text"
+                            required
+                            className="form-control"
+                            value={this.state.name}
+                            onChange={this.onChangeName}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label>Expiration Date: </label>
+                        <div>
+                            <DatePicker
+                                selected={this.state.expiration_date}
+                                onChange={this.onChangeExpirationDate}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="form-group">
+                        <input type="submit" value="Add Ingredient" className="btn btn-primary" />
                     </div>
                 </form>
             </div>

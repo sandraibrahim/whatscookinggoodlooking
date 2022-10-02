@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Navbar from './navbar.component';
 
 const Ingredient = props => (
     <tr>
@@ -54,7 +53,6 @@ export default class IngredientsList extends Component {
     render() {
         return (
             <div>
-                <Navbar />
                 <h3>Your Ingredients</h3>
                 <table className="table">
                     <thead className="thead-light">

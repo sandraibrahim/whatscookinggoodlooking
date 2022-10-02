@@ -23,7 +23,6 @@ connection.once('open', () => {
 })
 
 // Routing.
-const userRouter = require('./routes/user');
 const recipesRouter = require('./routes/recipes');
 const ingredientsRouter = require('./routes/ingredients');
 const affirmationsRouter = require('./routes/affirmations');
@@ -32,7 +31,6 @@ const signupRouter = require('./routes/signup');
 
 app.use('/signin', signinRouter);
 app.use('/signup', signupRouter);
-app.use('/user', userRouter);
 app.use('/recipes', recipesRouter);
 app.use('/ingredients', ingredientsRouter);
 app.use('/affirmations', affirmationsRouter);
