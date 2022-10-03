@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
+import Navbar from './navbar.component';
+import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 
 let options = [
@@ -20,8 +22,8 @@ let options = [
     { label: 'Other', value: 'Other' },
 ]
 
-{/*
-CLASS/COMPONENT NAME
+/*
+FUNCTION/COMPONENT NAME
     AddIngredient - allows user to add ingredient to their "pantry" 
     and adds to data base
 
@@ -38,134 +40,91 @@ DESCRIPTION
         to add ingredients into their pantry. When they fill out the form
         with all of the required fields it will call the server to then add 
         the information to the database.
-*/}
+*/
 
-export default class AddIngredient extends Component {
-    // Constructor.
-    constructor(props) {
-        super(props);
-
-        // Binds this command with the current value of variable.
-        this.onChangeCategory = this.onChangeCategory.bind(this);
-        this.onChangeQuantity = this.onChangeQuantity.bind(this);
-        this.onChangeName = this.onChangeName.bind(this);
-        this.onChangeExpirationDate = this.onChangeExpirationDate.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-
-        // Default values.
-        this.state = {
-            category: '',
-            quantity: 0,
-            name: '',
-            expiration_date: new Date(),
-        }
-
-    }
-
-    // Setters
-    onChangeCategory(e) {
-        this.setState({
-            category: e.target.value
-        })
-    }
-
-    onChangeQuantity(e) {
-        this.setState({
-            quantity: e.target.value
-        })
-    }
-
-    onChangeName(e) {
-        this.setState({
-            name: e.target.value
-        })
-    }
-
-    onChangeExpirationDate(date) {
-        this.setState({
-            expiration_date: date
-        })
-    }
+export default function AddIngredient({ setJWT }) {
+    let navigate = useNavigate();
+    const [name, setName] = useState();
+    const [quantity, setQuantity] = useState();
+    const [category, setCategory] = useState();
+    const [expiration, setExpiration] = useState();
 
     // Called when submit button is pressed.
-    onSubmit(e) {
+    const handleSubmit = async e => {
         e.preventDefault();
 
         // Creates ingredient object.
         const ingredient = {
-            category: this.state.category,
-            quantity: this.state.quantity,
-            name: this.state.name,
-            expiration_date: this.state.expiration_date
+            category: category,
+            quantity: quantity,
+            name: name,
+            expiration_date: expiration
         }
-
-        console.log(ingredient);
 
         // Sends object to get added in server.
         axios.post('http://localhost:8080/ingredients/addingredient', ingredient)
-            .then(res => window.location = '/ingredients');
+            .then(res => navigate("/ingredients"));
 
     }
 
-    render() {
-        return (
-            // Creates a form.
-            <div>
-                <h3>Add New Ingredient</h3>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Category: </label>
-                        <select
-                            required
-                            className="form-control"
-                            value={this.state.category}
-                            // Lists Categories
-                            onChange={this.onChangeCategory}>
-                            {
-                                options.map(function (option) {
-                                    return <option
-                                        value={option.value}>{option.label}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
+    return (
+        // Creates a form.
+        <div>
+            <Navbar />
+            <h3>Add New Ingredient</h3>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Category: </label>
+                    <select
+                        required
+                        className="form-control"
+                        value={category}
+                        // Lists Categories
+                        onChange={(e) => setCategory(e.target.value)}>
+                        {
+                            options.map(function (option) {
+                                return <option
+                                    value={option.value} key={option.value}>{option.label}
+                                </option>;
+                            })
+                        }
+                    </select>
+                </div>
 
-                    <div className="form-group">
-                        <label>Quantity: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.quantity}
-                            onChange={this.onChangeQuantity}
+                <div className="form-group">
+                    <label>Quantity: </label>
+                    <input type="text"
+                        required
+                        className="form-control"
+                        value={quantity}
+                        onChange={(e) => setQuantity(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Ingredient Name: </label>
+                    <input type="text"
+                        required
+                        className="form-control"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Expiration Date: </label>
+                    <div>
+                        <DatePicker
+                            selected={expiration}
+                            onChange={(date) => setExpiration(date)}
                         />
                     </div>
+                </div>
 
-                    <div className="form-group">
-                        <label>Ingredient Name: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.name}
-                            onChange={this.onChangeName}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Expiration Date: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.expiration_date}
-                                onChange={this.onChangeExpirationDate}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <input type="submit" value="Add Ingredient" className="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-        )
-    }
+                <div className="form-group">
+                    <input type="submit" value="Add Ingredient" className="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    )
 }

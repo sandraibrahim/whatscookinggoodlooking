@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './navbar.component';
@@ -10,67 +10,58 @@ const Ingredient = props => (
         <td>{props.ingredients.name}</td>
         <td>{props.ingredients.expiration_date.substring(0, 10)}</td>
         <td>
-            {/* ERROR HERE */}
             <Link to={"/edit/" + props.ingredients._id}> Edit </Link>
             |
-            <a href="#" onClick={() => { props.deleteIngredient(props.ingredients._id) }}>Delete</a>
+            <button onClick={() => { props.deleteIngredient(props.ingredients._id) }}>Delete</button>
         </td>
     </tr>
 )
 
-export default class IngredientsList extends Component {
-    constructor(props) {
-        super(props);
+export default function IngredientsList(props) {
+    const [ingredients, setIngredients] = useState([]);
 
-        this.deleteIngredient = this.deleteIngredient.bind(this);
-
-        this.state = { ingredients: [] };
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         axios.get('http://localhost:8080/ingredients/')
             .then(response => {
-                this.setState({ ingredients: response.data })
+                setIngredients(response.data);
             })
             .catch((error) => {
                 console.log(error);
             })
-    }
+    }, [])
 
-    deleteIngredient(id) {
+    const deleteIngredient = (id) => {
         axios.delete('http://localhost:8080/ingredients/' + id)
             .then(res => console.log(res.data));
 
-        this.setState({
-            ingredients: this.state.ingredients.filter(el => el._id !== id)
+        setIngredients(ingredients.filter(el => el._id !== id));
+    }
+
+    const ingredientList = () => {
+        return ingredients.map(currentingredient => {
+            return <Ingredient ingredients={currentingredient} deleteIngredient={deleteIngredient} key={currentingredient._id} />;
         })
     }
 
-    ingredientList() {
-        return this.state.ingredients.map(currentingredient => {
-            return <Ingredient ingredients={currentingredient} deleteIngredient={this.deleteIngredient} key={currentingredient._id} />;
-        })
-    }
-    render() {
-        return (
-            <div>
-                <Navbar />
-                <h3>Your Ingredients</h3>
-                <table className="table">
-                    <thead className="thead-light">
-                        <tr>
-                            <th>Category</th>
-                            <th>Quantity</th>
-                            <th>Name</th>
-                            <th>Expiration Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.ingredientList()}
-                    </tbody>
-                </table>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <Navbar />
+            <h3>Your Ingredients</h3>
+            <table className="table">
+                <thead className="thead-light">
+                    <tr>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Name</th>
+                        <th>Expiration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {ingredientList()}
+                </tbody>
+            </table>
+        </div>
+    )
 }
+

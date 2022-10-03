@@ -9,7 +9,6 @@ import SignIn from "./components/signin.component";
 import SignUp from "./components/signup.component";
 import { ProtectedRoute } from "./protected-route.component";
 import { AuthProvider } from "./auth-provider";
-import Navbar from './components/navbar.component';
 
 
 function App() {

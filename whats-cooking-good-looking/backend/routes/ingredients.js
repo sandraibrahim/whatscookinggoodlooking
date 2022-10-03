@@ -24,11 +24,11 @@ router.route('/addingredient').post((req, res) => {
   const expiration_date = req.body.expiration_date;
 
   const newIngredients = new Ingredients({
-      category,
-      quantity,
-      name,
-      expiration_date,
-    });
+    category,
+    quantity,
+    name,
+    expiration_date,
+  });
 
   newIngredients.save()
     .then(() => res.json('Ingredient added!'))

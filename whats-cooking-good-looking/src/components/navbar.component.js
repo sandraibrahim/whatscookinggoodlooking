@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from "../auth-provider";
 
-// TODO: fix navbar/logout feature (use effect?)
 export default function Navbar() {
   const auth = useAuth();
 
   const handleSubmit = async e => {
-    useEffect(() => {
-      auth.logout();
-    })
+    auth.logout();
   }
 
   return (

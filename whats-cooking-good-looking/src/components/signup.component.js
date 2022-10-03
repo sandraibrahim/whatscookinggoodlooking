@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import { useAuth } from "../auth-provider";
 
 export default function SignUp() {
-    const [username, setUserName] = useState();
-    const [password, setPassword] = useState();
-    const [email, setEmail] = useState();
-    const [first_name, setfirst_name] = useState();
-    const [last_name, setlast_name] = useState();
+    const [username, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [first_name, setfirst_name] = useState("");
+    const [last_name, setlast_name] = useState("");
     const auth = useAuth();
 
     const handleSubmit = async e => {
@@ -70,7 +69,3 @@ export default function SignUp() {
         </div>
     )
 }
-
-SignUp.propTypes = {
-    setToken: PropTypes.func.isRequired
-};

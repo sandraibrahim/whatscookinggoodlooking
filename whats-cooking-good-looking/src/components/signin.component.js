@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../auth-provider";
 
@@ -58,7 +57,3 @@ export default function SignIn({ setJWT }) {
 
   )
 }
-
-SignIn.propTypes = {
-  setToken: PropTypes.func.isRequired
-};

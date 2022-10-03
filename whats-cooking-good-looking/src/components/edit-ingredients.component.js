@@ -1,171 +1,133 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import { useParams } from 'react-router-dom';
+import Navbar from './navbar.component';
+import { useNavigate } from 'react-router-dom';
 import "react-datepicker/dist/react-datepicker.css";
 
 let options = [
-  {label: 'Fruit', value: 'Fruit'},
-  {label: 'Vegetables', value: 'Vegetables'},
-  {label: 'Dairy', value: 'Dairy'},
-  {label: 'Meat', value: 'Meat'},
-  {label: 'Condiment', value: 'Condiment'},
-  {label: 'Seafood', value: 'Seafood'},
-  {label: 'Herbs/Spices', value: 'Herbs/Spices'},
-  {label: 'Baking', value: 'Baking'},
-  {label: 'Oils/Fats', value: 'Oils/Fats'},
-  {label: 'Beverages', value: 'Beverages'},
-  {label: 'Pasta', value: 'Pasta'},
-  {label: 'Bread', value: 'Bread'},
-  {label: 'Other', value: 'Other'},
+  { label: 'Fruit', value: 'Fruit' },
+  { label: 'Vegetables', value: 'Vegetables' },
+  { label: 'Dairy', value: 'Dairy' },
+  { label: 'Meat', value: 'Meat' },
+  { label: 'Condiment', value: 'Condiment' },
+  { label: 'Seafood', value: 'Seafood' },
+  { label: 'Herbs/Spices', value: 'Herbs/Spices' },
+  { label: 'Baking', value: 'Baking' },
+  { label: 'Oils/Fats', value: 'Oils/Fats' },
+  { label: 'Beverages', value: 'Beverages' },
+  { label: 'Pasta', value: 'Pasta' },
+  { label: 'Bread', value: 'Bread' },
+  { label: 'Other', value: 'Other' },
 ]
 
-class EditIngredients extends Component {
-  constructor(props) {
-    super(props);
+export default function EditIngredients(props) {
+  let navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [category, setCategory] = useState("");
+  const [expiration, setExpiration] = useState("");
 
-    this.onChangeCategory = this.onChangeCategory.bind(this);
-    this.onChangeQuantity = this.onChangeQuantity.bind(this);
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeExpirationDate = this.onChangeExpirationDate.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-
-    this.state = {
-      category : '',
-      quantity: 0,
-      name: '',
-      expiration_date: new Date(),
-  }
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     const id = window.location.href.split('/')[4]
-    axios.get('http://localhost:8080/ingredients/'+ id)
+    axios.get('http://localhost:8080/ingredients/' + id)
       .then(response => {
-        this.setState({
-          category : response.data.category,
-          quantity: response.data.quantity,
-          name: response.data.name,
-          expiration_date: new Date(response.data.expiration_date)
-        })   
+        setCategory(response.data.category);
+        setQuantity(response.data.quantity);
+        setName(response.data.name);
+        setExpiration(new Date(response.data.expiration_date));
       })
       .catch(function (error) {
         console.log(error);
       })
 
-  }
-  
-  // Setters
+  }, [])
 
-  onChangeCategory(e){
-    this.setState({
-        category : e.target.value
-    })
-  }
-
-  onChangeQuantity(e) {
-      this.setState({
-          quantity: e.target.value
-      })
-      }
-
-  onChangeName(e) {
-      this.setState({
-          name: e.target.value
-      })
-      }
-
-  onChangeExpirationDate(date) {
-      this.setState({
-          expiration_date: date
-      })
-  }
-
-  onSubmit(e){
+  const handleSubmit = async e => {
     e.preventDefault();
-
     // creates ingredient object
     const ingredient = {
-        category: this.state.category,
-        quantity: this.state.quantity,
-        name: this.state.name,
-        expiration_date: this.state.expiration_date
+      category: category,
+      quantity: quantity,
+      name: name,
+      expiration_date: expiration
     }
 
-    console.log(ingredient);
     const id = window.location.href.split('/')[4]
+
     // sends object to get added in server
-    axios.post('http://localhost:8080/ingredients/edit/'+id, ingredient)
-    .then(res =>  window.location = '/');
-    
+    axios.post('http://localhost:8080/ingredients/edit/' + id, ingredient)
+      .then(res => navigate("/ingredients"));
+
   }
 
-  render() {
-    return (
+  return (
     // Creates a form
     <div>
+      <Navbar />
       <h3>Edit Ingredient List</h3>
-      <form onSubmit={this.onSubmit}>
-          <div className="form-group"> 
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
           <label>Category: </label>
           <select
-              required
-              className="form-control"
-              value={this.state.category}
-              // Lists Categories
-              onChange={this.onChangeCategory}>
-              {
-                  options.map(function(option) {
-                  return <option 
-                      value={option.value}>{option.label}
-                      </option>;
-                  })
-              }
+            required
+            className="form-control"
+            value={category}
+            // Lists Categories
+            onChange={(e) => setCategory(e.target.value)}>
+            {
+              options.map(function (option) {
+                return <option
+                  value={option.value} key={option.value}>{option.label}
+                </option>;
+              })
+            }
           </select>
-          </div>
+        </div>
 
-          <div className="form-group"> 
+        <div className="form-group">
           <label>Quantity: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.quantity}
-              onChange={this.onChangeQuantity}
-              />
-          </div>
+          <input type="text"
+            required
+            className="form-control"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+        </div>
 
-          <div className="form-group"> 
+        <div className="form-group">
           <label>Ingredient Name: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.name}
-              onChange={this.onChangeName}
-              />
-          </div>
-          
-          <div className="form-group">
+          <input type="text"
+            required
+            className="form-control"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+
+        <div className="form-group">
           <label>Expiration Date: </label>
           <div>
-              <DatePicker
-              selected={this.state.expiration_date}
-              onChange={this.onChangeExpirationDate}
-              />
+            <DatePicker
+              selected={expiration}
+              onChange={(date) => setExpiration(date)}
+            />
           </div>
-          </div>
+        </div>
 
-          <div className="form-group">
+        <div className="form-group">
           <input type="submit" value="Edit Ingredient" className="btn btn-primary" />
-          </div>
+        </div>
       </form>
     </div>
-    )
-  }
+  )
+
 }
 
-export default (props) => (
-  <EditIngredients
-  {...props}
-  params = {useParams()}
-  />
-)
+// export default (props) => (
+//   <EditIngredients
+//     {...props}
+//     params={useParams()}
+//   />
+// )
+
