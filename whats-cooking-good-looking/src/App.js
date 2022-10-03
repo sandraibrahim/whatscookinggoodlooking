@@ -9,6 +9,7 @@ import SignIn from "./components/signin.component";
 import SignUp from "./components/signup.component";
 import { ProtectedRoute } from "./protected-route.component";
 import { AuthProvider } from "./auth-provider";
+import RecipeSearch from './components/recipe_search.component';
 
 
 function App() {
@@ -39,6 +40,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AddIngredient />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="recipes"
+          element={
+            <ProtectedRoute>
+              <RecipeSearch />
             </ProtectedRoute>
           }
         />

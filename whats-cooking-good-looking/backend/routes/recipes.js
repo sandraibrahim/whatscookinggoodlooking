@@ -17,11 +17,11 @@ router.route('/saverecipe').post((req, res) => {
   const type = req.body.type;
 
   const newRecipe = new Recipes({
-      link,
-      title,
-      username,
-      type,
-    });
+    link,
+    title,
+    username,
+    type,
+  });
 
   newRecipe.save()
     .then(() => res.json('Recipe added!'))

@@ -32,7 +32,6 @@ export default function IngredientsList(props) {
             })
     }, [])
 
-
     const deleteIngredient = (id) => {
         axios.delete('http://localhost:8080/ingredients/' + id)
             .then(res => console.log(res.data));

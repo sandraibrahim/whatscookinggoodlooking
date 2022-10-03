@@ -21,6 +21,9 @@ export default function Navbar() {
             <Link to="/addingredient" className="nav-link">Add Ingredient</Link>
           </li>
           <li className="navbar-item">
+            <Link to="/recipes" className="nav-link">Recipes</Link>
+          </li>
+          <li className="navbar-item">
             <button onClick={() => handleSubmit()}>Logout</button>
           </li>
         </ul>
