@@ -15,8 +15,7 @@ router.route('/').get((req, res) => {
 // Routing Post Requests.
 router.route('/').post((req, res, next) => {
   // Get the credentials.
-  // TODO: fname and lnmame not defined needs to be fixed
-  let { username, password, email, fname, lname } = req.body;
+  let { username, password, email, first_name, last_name } = req.body;
 
   let errors = [];
   if (!username) {
@@ -44,11 +43,9 @@ router.route('/').post((req, res, next) => {
         username: username,
         password: password,
         email: email,
-        first_name: fname,
-        last_name: lname,
+        first_name: first_name,
+        last_name: last_name,
       });
-
-      console.log(user.first_name);
 
       // Hash the password
       bcrypt.genSalt(10, function (err, salt) {

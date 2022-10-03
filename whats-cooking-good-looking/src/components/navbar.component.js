@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from "../auth-provider";
 
 // TODO: fix navbar/logout feature (use effect?)
 export default function Navbar() {
   const auth = useAuth();
+
+  const handleSubmit = async e => {
+    useEffect(() => {
+      auth.logout();
+    })
+  }
+
   return (
     <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
       <div className="navbar-brand">Recipe Maker</div>
@@ -17,7 +24,7 @@ export default function Navbar() {
             <Link to="/addingredient" className="nav-link">Add Ingredient</Link>
           </li>
           <li className="navbar-item">
-            <button onClick={auth.logout()}>Logout</button>
+            <button onClick={() => handleSubmit()}>Logout</button>
           </li>
         </ul>
       </div>

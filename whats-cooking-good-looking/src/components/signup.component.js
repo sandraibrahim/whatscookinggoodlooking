@@ -7,8 +7,8 @@ export default function SignUp() {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
     const [email, setEmail] = useState();
-    const [fname, setFname] = useState();
-    const [lname, setLname] = useState();
+    const [first_name, setfirst_name] = useState();
+    const [last_name, setlast_name] = useState();
     const auth = useAuth();
 
     const handleSubmit = async e => {
@@ -18,8 +18,8 @@ export default function SignUp() {
             username: username,
             password: password,
             email: email,
-            first_name: fname,
-            last_name: lname
+            first_name: first_name,
+            last_name: last_name
         }
 
         axios.post('http://localhost:8080/signup', user)
@@ -57,11 +57,11 @@ export default function SignUp() {
                 </label>
                 <label>
                     <p>First Name</p>
-                    <input type="text" onChange={e => setFname(e.target.value)} />
+                    <input type="text" onChange={e => setfirst_name(e.target.value)} />
                 </label>
                 <label>
                     <p>Last Name</p>
-                    <input type="text" onChange={e => setLname(e.target.value)} />
+                    <input type="text" onChange={e => setlast_name(e.target.value)} />
                 </label>
                 <div>
                     <button type="submit">Submit</button>

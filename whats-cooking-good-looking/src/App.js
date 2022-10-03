@@ -15,7 +15,6 @@ import Navbar from './components/navbar.component';
 function App() {
   return (
     <AuthProvider>
-      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="signup" element={<SignUp />} />
