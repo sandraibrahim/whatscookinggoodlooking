@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useLocalStorage } from "../auth";
 import Navbar from './navbar.component';
 
 const Ingredient = props => (
@@ -19,9 +20,10 @@ const Ingredient = props => (
 
 export default function IngredientsList(props) {
     const [ingredients, setIngredients] = useState([]);
-
+    const [user] = useLocalStorage("user", null);
+    const params = { uid: user.data.message._id };
     useEffect(() => {
-        axios.get('http://localhost:8080/ingredients/')
+        axios.post('http://localhost:8080/ingredients/', params)
             .then(response => {
                 setIngredients(response.data);
             })
@@ -29,6 +31,7 @@ export default function IngredientsList(props) {
                 console.log(error);
             })
     }, [])
+
 
     const deleteIngredient = (id) => {
         axios.delete('http://localhost:8080/ingredients/' + id)

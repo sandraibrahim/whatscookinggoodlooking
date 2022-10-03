@@ -2,9 +2,10 @@
 const router = require('express').Router();
 const Ingredients = require('../models/ingredients.model');
 
-// Routing Get Requests.
-router.route('/').get((req, res) => {
-  Ingredients.find()
+// Routing Post Requests.
+router.route('/').post((req, res) => {
+  const obj = JSON.parse(JSON.stringify(req.body))
+  Ingredients.find({ uid: obj.uid })
     .then(ingredient => res.json(ingredient))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -22,12 +23,14 @@ router.route('/addingredient').post((req, res) => {
   const quantity = req.body.quantity;
   const name = req.body.name;
   const expiration_date = req.body.expiration_date;
+  const uid = req.body.uid;
 
   const newIngredients = new Ingredients({
     category,
     quantity,
     name,
     expiration_date,
+    uid,
   });
 
   newIngredients.save()

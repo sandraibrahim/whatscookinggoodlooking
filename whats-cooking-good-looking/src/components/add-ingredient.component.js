@@ -3,6 +3,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Navbar from './navbar.component';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from "../auth";
 import "react-datepicker/dist/react-datepicker.css";
 
 let options = [
@@ -44,6 +45,8 @@ DESCRIPTION
 
 export default function AddIngredient({ setJWT }) {
     let navigate = useNavigate();
+    const [user] = useLocalStorage("user", null);
+
     const [name, setName] = useState();
     const [quantity, setQuantity] = useState();
     const [category, setCategory] = useState();
@@ -58,8 +61,11 @@ export default function AddIngredient({ setJWT }) {
             category: category,
             quantity: quantity,
             name: name,
-            expiration_date: expiration
+            expiration_date: expiration,
+            uid: user.data.message._id
         }
+
+        console.log();
 
         // Sends object to get added in server.
         axios.post('http://localhost:8080/ingredients/addingredient', ingredient)
