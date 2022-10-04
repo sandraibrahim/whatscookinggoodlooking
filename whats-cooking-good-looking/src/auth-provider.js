@@ -5,18 +5,17 @@ import React from 'react';
 
 const AuthContext = createContext();
 
-// 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useLocalStorage("user", null);
     const navigate = useNavigate();
 
-    // call this function when you want to authenticate the user
+    // Call this function when you want to authenticate the user.
     const login = async (data) => {
         setUser(data);
         navigate("/ingredients");
     };
 
-    // call this function to sign out logged in user
+    // Call this function to sign out logged in user.
     const logout = () => {
         setUser(null);
         navigate("/", { replace: true });

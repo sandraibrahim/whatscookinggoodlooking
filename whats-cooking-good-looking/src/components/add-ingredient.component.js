@@ -6,23 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../auth";
 import "react-datepicker/dist/react-datepicker.css";
 
-let options = [
-    { label: 'Choose Category', value: '' },
-    { label: 'Fruit', value: 'Fruit' },
-    { label: 'Vegetables', value: 'Vegetables' },
-    { label: 'Dairy', value: 'Dairy' },
-    { label: 'Meat', value: 'Meat' },
-    { label: 'Condiment', value: 'Condiment' },
-    { label: 'Seafood', value: 'Seafood' },
-    { label: 'Herbs/Spices', value: 'Herbs/Spices' },
-    { label: 'Baking', value: 'Baking' },
-    { label: 'Oils/Fats', value: 'Oils/Fats' },
-    { label: 'Beverages', value: 'Beverages' },
-    { label: 'Pasta', value: 'Pasta' },
-    { label: 'Bread', value: 'Bread' },
-    { label: 'Other', value: 'Other' },
-]
-
 /*
 FUNCTION/COMPONENT NAME
     AddIngredient - allows user to add ingredient to their "pantry" 
@@ -33,24 +16,47 @@ SYNOPSIS
         category --> category/type of ingredeient
         quantity --> amount of ingredeient
         name --> name of ingredient
-        expiration_date --> expiration date of ingredient                                                        
+        expiration_date --> expiration date of ingredient     
+        user --> user that added ingredient
+        options --> list of category options                                                   
 
 DESCRIPTION
-
-        This class takes care of creating a form for the user to fill out
+        This function takes care of creating a form for the user to fill out
         to add ingredients into their pantry. When they fill out the form
         with all of the required fields it will call the server to then add 
         the information to the database.
 */
 
-export default function AddIngredient({ setJWT }) {
+export default function AddIngredient() {
+    // Allows window to navigate to different pages on app .
     let navigate = useNavigate();
+
+    // Grab curruser from local storage.
     const [user] = useLocalStorage("user", null);
 
+    // Hooks.
     const [name, setName] = useState();
     const [quantity, setQuantity] = useState();
     const [category, setCategory] = useState();
     const [expiration, setExpiration] = useState();
+
+    // List of Category Options.
+    let options = [
+        { label: 'Choose Category', value: '' },
+        { label: 'Fruit', value: 'Fruit' },
+        { label: 'Vegetables', value: 'Vegetables' },
+        { label: 'Dairy', value: 'Dairy' },
+        { label: 'Meat', value: 'Meat' },
+        { label: 'Condiment', value: 'Condiment' },
+        { label: 'Seafood', value: 'Seafood' },
+        { label: 'Herbs/Spices', value: 'Herbs/Spices' },
+        { label: 'Baking', value: 'Baking' },
+        { label: 'Oils/Fats', value: 'Oils/Fats' },
+        { label: 'Beverages', value: 'Beverages' },
+        { label: 'Pasta', value: 'Pasta' },
+        { label: 'Bread', value: 'Bread' },
+        { label: 'Other', value: 'Other' },
+    ]
 
     // Called when submit button is pressed.
     const handleSubmit = async e => {
@@ -64,8 +70,6 @@ export default function AddIngredient({ setJWT }) {
             expiration_date: expiration,
             uid: user.data.message._id
         }
-
-        console.log();
 
         // Sends object to get added in server.
         axios.post('http://localhost:8080/ingredients/addingredient', ingredient)
@@ -85,6 +89,7 @@ export default function AddIngredient({ setJWT }) {
                         required
                         className="form-control"
                         value={category}
+
                         // Lists Categories
                         onChange={(e) => setCategory(e.target.value)}>
                         {

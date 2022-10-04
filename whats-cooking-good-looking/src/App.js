@@ -11,7 +11,17 @@ import { ProtectedRoute } from "./protected-route.component";
 import { AuthProvider } from "./auth-provider";
 import RecipeSearch from './components/recipe_search.component';
 
+/*
+FUNCTION
+    App - Routes app
 
+SYNOPSIS
+    None
+                                                         
+DESCRIPTION
+    This function is responsible for routing the app as nessesary. It stops the user
+    from going to specific routs (protected routes) if they are not signed in.
+*/
 function App() {
   return (
     <AuthProvider>

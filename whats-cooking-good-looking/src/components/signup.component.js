@@ -2,17 +2,41 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from "../auth-provider";
 
+/*
+FUNCTION/COMPONENT NAME
+    Signup - allows user to sign up for an account if they have don't have one and
+    authorizes it.
+
+SYNOPSIS
+    Signin variables   
+        username --> username of user
+        password --> password of user
+        email --> email of user
+        first_name --> first name of user
+        last_name --> last name of user
+                                                         
+DESCRIPTION
+        This function takes care of creating a form to allow the user to sign
+        up for an account with required credentials. It authenticates the user and makes
+        sure their information is valid. After this, it signs in the user and allows them 
+        to access the app.
+*/
 export default function SignUp() {
+    // Authentication.
+    const auth = useAuth();
+
+    // Hooks.
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [first_name, setfirst_name] = useState("");
     const [last_name, setlast_name] = useState("");
-    const auth = useAuth();
 
+    // Called when user submits form.
     const handleSubmit = async e => {
         e.preventDefault();
 
+        // Creates user object.
         const user = {
             username: username,
             password: password,
@@ -21,7 +45,10 @@ export default function SignUp() {
             last_name: last_name
         }
 
+        // Post request with user object that calls server to authenticate
+        // user and adds them to database if no errors occur.
         axios.post('http://localhost:8080/signup', user)
+            // User is valid.
             .then(data =>
                 auth.login(data)
             )
@@ -39,6 +66,7 @@ export default function SignUp() {
     }
 
     return (
+        // Creates a sign up form.
         <div className="login-wrapper">
             <h1>Please Sign Up</h1>
             <form onSubmit={handleSubmit}>

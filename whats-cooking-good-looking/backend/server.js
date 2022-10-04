@@ -8,9 +8,12 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 8080;
 
-// Setting up basic middleware for all Express requests
-app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
-app.use(bodyParser.json()); // Send JSON responses
+// Setting up basic middleware for all Express requests.
+// Parses urlencoded bodies
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Send JSON responses
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 

@@ -37,6 +37,7 @@ router.route('/').post((req, res, next) => {
       return res.status(400).json({
         errors: [{ user: "Email already exists. Try signing in." }],
       });
+
       // Create a new user
     } else {
       const user = new User({
