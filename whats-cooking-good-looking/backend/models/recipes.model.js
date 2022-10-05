@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 
 // Create Schema.
 const recipesSchema = new Schema({
-    link:{type: String, required: true, trim: true},
-    title:{type: String, required: true},
-    username:{type: String, required: true, trim: true},
-    type:{type: String, required: true},
-},{
+    id: { type: Number, required: true },
+    title: { type: String, required: true },
+    user: { type: String, required: true, trim: true },
+    image: { type: String, required: true }
+}, {
     timestamps: true,
 });
 

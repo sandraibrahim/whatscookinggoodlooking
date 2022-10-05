@@ -42,8 +42,12 @@ export default function Navbar() {
             <Link to="/recipes" className="nav-link">Recipes</Link>
           </li>
           <li className="navbar-item">
+            <Link to="/saverecipe" className="nav-link">Saved Recipes</Link>
+          </li>
+          <li className="navbar-item">
             <button onClick={() => handleSubmit()}>Logout</button>
           </li>
+
         </ul>
       </div>
     </nav>

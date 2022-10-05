@@ -1,54 +1,118 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useLocalStorage } from "../auth";
 import Navbar from './navbar.component';
-import IngredientsList from './ingredients-list.component';
+
+// import IngredientsList from './ingredients-list.component';
+
+// Prints out ingredients in organized way with delete and edit buttons. 
+const openUrlWithID = id => {
+    let payload = {
+        apiKey: "004c4138b95749f6aeb59289bc2e58e8",
+        includeNutrition: false
+    }
+    axios.get(`https://api.spoonacular.com/recipes/${id}/information`, { params: payload })
+        .then(response => {
+            window.open(response.data.sourceUrl);
+        })
+        .catch(function (error) {
+            window.alert("Cannot Get Recipe")
+        })
+}
+
+const Recipe = props => (
+    <tr>
+        <td>{props.recipe.title}</td>
+        <img
+            src={props.recipe.image}
+            alt={`${props.recipe.title}`}
+        />
+        <button onClick={() => openUrlWithID(props.recipe.id)}>
+            See Recipe
+        </button>
+        <button onClick={() => props.saverecipe(props.recipe.title, props.recipe.image, props.recipe.id)}>
+            Save Recipe
+        </button>
+    </tr>
+)
 
 export default function RecipeSearch(props) {
-    const [ingredients, setIngredients] = useState([]);
     const [user] = useLocalStorage("user", null);
     const params = { uid: user.data.message._id };
     let ingredientlist = "";
 
+    // Hook.
+    const [recipes, setRecipes] = useState([]);
 
     useEffect(() => {
         axios.post('http://localhost:8080/ingredients/', params)
             .then(response => {
-                setIngredients(response.data);
-            })
-            .then(response => {
-                createList();
-                const payload = {
+                // TODO: Error Check Response
+
+                response.data.forEach((ingredient) => {
+                    ingredientlist += ingredient.name + ',';
+                })
+                let payload = {
                     apiKey: "004c4138b95749f6aeb59289bc2e58e8",
-                    includeIngredients: ingredientlist
+                    ingredients: ingredientlist
                 }
-                return payload;
-            })
-            .then(payload => {
-                axios.get('https://api.spoonacular.com/recipes/complexSearch', { payload })
+                axios.get('https://api.spoonacular.com/recipes/findByIngredients', { params: payload })
                     .then(response => {
-                        console.log(response);
+                        // console.log(response);
+                        setRecipes(response.data);
                     })
-            })
-            .catch((error) => {
-                console.log(error);
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             })
     }, [])
 
-    const createList = () => {
-        ingredients.forEach((ingredient) => {
-            ingredientlist += ingredient.name + ' ,';
-        })
+    // Called if delete button is pressed.
+    const saverecipe = (title, image, id) => {
+        const recipe = {
+            id: id,
+            title: title,
+            user: user.data.message._id,
+            image: image
+        }
+
+        // Calls server to delete current ingredient.
+        axios.post('http://localhost:8080/recipes/saverecipe', recipe)
+            .then(res => console.log(res.data))
+            .catch(function (error) {
+                if (error.response.status === 405) {
+                    console.log("Recipe already saved!")
+                }
+                else {
+                    console.log("Something went wrong. Please try again.")
+                }
+            });
+
+        setRecipes(recipes.filter(el => el._id !== id));
     }
 
-
-
+    // Grabs list of users recipes.
+    const recipesList = () => {
+        return recipes.map(currrecipe => {
+            return <Recipe recipe={currrecipe} saverecipe={saverecipe} key={currrecipe.id} />;
+        })
+    }
 
     return (
         <div>
             <Navbar />
-
+            <h3>Your Recipes</h3>
+            <table className="table">
+                <thead className="thead-light">
+                    <tr>
+                        <th>Recipe Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {recipesList()}
+                </tbody>
+            </table>
         </div>
     )
 }

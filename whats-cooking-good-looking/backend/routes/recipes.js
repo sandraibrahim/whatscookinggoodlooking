@@ -1,31 +1,42 @@
 // Dependencies.
 const router = require('express').Router();
+const e = require('express');
 const Recipes = require('../models/recipes.model');
 
 // Routing Get Requests.
-router.route('/').get((req, res) => {
-  Recipes.find()
+router.route('/').post((req, res) => {
+  const obj = JSON.parse(JSON.stringify(req.body))
+  Recipes.find({ user: obj.user })
     .then(recipe => res.json(recipe))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // Routing Post Requests.
 router.route('/saverecipe').post((req, res) => {
-  const link = req.body.link;
+  const id = req.body.id;
   const title = req.body.title;
-  const username = req.body.username;
-  const type = req.body.type;
+  const user = req.body.user;
+  const image = req.body.image;
 
   const newRecipe = new Recipes({
-    link,
+    id,
     title,
-    username,
-    type,
+    user,
+    image,
   });
 
-  newRecipe.save()
-    .then(() => res.json('Recipe added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+  Recipes.findOne({ id: id, user: user }).then(recipe => {
+    if (recipe) {
+      return res.status(405).json({
+        errors: [{ recipe: "Recipe already saved." }],
+      })
+    }
+    else {
+      newRecipe.save()
+        .then(() => res.json('Recipe added!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    }
+  });
 });
 
 // Delete Recipe
@@ -34,11 +45,5 @@ router.route('/:id').delete((req, res) => {
     .then(() => res.json('Recipe deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
-
-
-
-
-
-
 
 module.exports = router;

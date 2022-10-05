@@ -10,6 +10,7 @@ import SignUp from "./components/signup.component";
 import { ProtectedRoute } from "./protected-route.component";
 import { AuthProvider } from "./auth-provider";
 import RecipeSearch from './components/recipe_search.component';
+import SavedRecipe from './components/saved_recipes.component';
 
 /*
 FUNCTION
@@ -58,6 +59,14 @@ function App() {
           element={
             <ProtectedRoute>
               <RecipeSearch />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="saverecipe"
+          element={
+            <ProtectedRoute>
+              <SavedRecipe />
             </ProtectedRoute>
           }
         />
