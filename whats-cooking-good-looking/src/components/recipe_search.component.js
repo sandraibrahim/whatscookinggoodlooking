@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useLocalStorage } from "../auth";
-import Navbar from './navbar.component';
+import AppNavBar from './AppNavBar.component.js';
 
 // import IngredientsList from './ingredients-list.component';
 
@@ -39,7 +39,7 @@ const Recipe = props => (
 
 export default function RecipeSearch(props) {
     const [user] = useLocalStorage("user", null);
-    const params = { uid: user.data.message._id };
+    const params = { uid: user.data.result._id };
     let ingredientlist = "";
 
     // Hook.
@@ -101,7 +101,7 @@ export default function RecipeSearch(props) {
 
     return (
         <div>
-            <Navbar />
+            <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
             <h3>Your Recipes</h3>
             <table className="table">
                 <thead className="thead-light">

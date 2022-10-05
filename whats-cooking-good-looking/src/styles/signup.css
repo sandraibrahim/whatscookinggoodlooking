@@ -1,0 +1,25 @@
+.login-wrapper {
+  margin-top: 150px;
+  margin-left: 300px;
+  margin-right: 300px;
+  padding: 50px;
+}
+body {
+  background-image: url("../assets/signinbackground.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.card-content {
+  text-align: center;
+  background-color: whitesmoke;
+}
+.input-divider {
+  padding: 10px;
+}
+.header {
+  font-family: fantasy;
+  font-weight: bold;
+  text-align: center;
+  font-size: xx-large;
+  background-color: lightgray;
+}

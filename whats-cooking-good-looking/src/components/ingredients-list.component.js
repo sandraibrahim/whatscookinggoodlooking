@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useLocalStorage } from "../auth";
-import Navbar from './navbar.component';
+import AppNavBar from './AppNavBar.component.js';
+import Card from "react-bootstrap/Card";
+import CardHeader from 'react-bootstrap/esm/CardHeader';
+import "../styles/ingredient-list.css";
 
 // Prints out ingredients in organized way with delete and edit buttons. 
 const Ingredient = props => (
@@ -47,7 +50,8 @@ export default function IngredientsList(props) {
     const [ingredients, setIngredients] = useState([]);
 
     // Sets parameter to be the user id of the current user.
-    const params = { uid: user.data.message._id };
+    console.log(user);
+    const params = { uid: user.data.result._id };
 
     // Called as soon as the component runs.
     useEffect(() => {
@@ -80,23 +84,29 @@ export default function IngredientsList(props) {
 
     return (
         // Creates a table.
+
         <div>
-            <Navbar />
-            <h3>Your Ingredients</h3>
-            <table className="table">
-                <thead className="thead-light">
-                    <tr>
-                        <th>Category</th>
-                        <th>Quantity</th>
-                        <th>Name</th>
-                        <th>Expiration Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {ingredientList()}
-                </tbody>
-            </table>
+            <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
+            <Card className='card-wrapper'>
+                <CardHeader className='header'>
+                    <div className='header'>Your Pantry</div>
+                </CardHeader>
+                <table className="table">
+                    <thead className="thead-light">
+                        <tr>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Name</th>
+                            <th>Expiration Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ingredientList()}
+                    </tbody>
+                </table>
+            </Card>
+
         </div>
     )
 }

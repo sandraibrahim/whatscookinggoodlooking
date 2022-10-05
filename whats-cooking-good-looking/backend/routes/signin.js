@@ -61,7 +61,7 @@ router.route("/").post((req, res) => {
                                     return res.status(200).json({
                                         success: true,
                                         token: access_token,
-                                        message: user,
+                                        result: user,
                                     });
                                 }
                             }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import Navbar from './navbar.component';
+import Navbar from './AppNavBar.component.js';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from "../auth";
 import "react-datepicker/dist/react-datepicker.css";
 
 /*
@@ -28,6 +29,8 @@ DESCRIPTION
 export default function EditIngredients(props) {
   // Allows window to navigate to different pages on app .
   let navigate = useNavigate();
+
+  const [user] = useLocalStorage("user", null);
 
   // Hooks.
   const [name, setName] = useState("");
@@ -96,7 +99,7 @@ export default function EditIngredients(props) {
   return (
     // Creates a form.
     <div>
-      <Navbar />
+      <Navbar user={user.data.result.first_name + " " + user.data.result.last_name} />
       <h3>Edit Ingredient List</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

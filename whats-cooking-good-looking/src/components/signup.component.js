@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../auth-provider";
+import Card from "react-bootstrap/Card";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import "../styles/signup.css";
+import FormGroup from 'react-bootstrap/esm/FormGroup';
+import CardHeader from 'react-bootstrap/esm/CardHeader';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 /*
 FUNCTION/COMPONENT NAME
@@ -22,6 +30,7 @@ DESCRIPTION
         to access the app.
 */
 export default function SignUp() {
+    let navigate = useNavigate();
     // Authentication.
     const auth = useAuth();
 
@@ -68,32 +77,62 @@ export default function SignUp() {
     return (
         // Creates a sign up form.
         <div className="login-wrapper">
-            <h1>Please Sign Up</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <p>Username</p>
-                    <input type="text" onChange={e => setUserName(e.target.value)} />
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input type="password" onChange={e => setPassword(e.target.value)} />
-                </label>
-                <label>
-                    <p>Email</p>
-                    <input type="text" onChange={e => setEmail(e.target.value)} />
-                </label>
-                <label>
-                    <p>First Name</p>
-                    <input type="text" onChange={e => setfirst_name(e.target.value)} />
-                </label>
-                <label>
-                    <p>Last Name</p>
-                    <input type="text" onChange={e => setlast_name(e.target.value)} />
-                </label>
-                <div>
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
+            <Card>
+                <CardHeader className='header'>
+                    <div className='header'>Sign Up</div>
+                </CardHeader>
+                <Card.Body className='card-content'>
+                    <div className='card-content'>
+                        <Form onSubmit={handleSubmit}>
+                            <FormGroup>
+                                <div className='input-divider'>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Text id="basic-addon1">Email</InputGroup.Text>
+                                        <Form.Control className="input-size" type="text" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+                                    </InputGroup>
+                                </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <div className='input-divider'>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                                        <Form.Control className="input-size" type="text" placeholder="Username" onChange={e => setUserName(e.target.value)} />
+                                    </InputGroup>
+                                </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <div className='input-divider'>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Text id="basic-addon1">#</InputGroup.Text>
+                                        <Form.Control className="input-size" type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                                    </InputGroup>
+                                </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <div className='input-divider'>
+                                    <InputGroup className="mb-3">
+                                        <InputGroup.Text id="basic-addon1">First Name</InputGroup.Text>
+                                        <Form.Control className="input-size" type="text" placeholder="First Name" onChange={e => setfirst_name(e.target.value)} />
+                                        <InputGroup.Text id="basic-addon1">Last Name</InputGroup.Text>
+                                        <Form.Control className="input-size" type="text" placeholder="Last Name" onChange={e => setlast_name(e.target.value)} />
+                                    </InputGroup>
+                                </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <div className='input-divider'>
+                                    <Button variant="outline-secondary" size="lg" type="submit">Sign Up</Button>
+                                </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <Button variant="link" className="px-4" onClick={() => navigate("/")}>
+                                    Already have an account? Sign In Here!
+                                </Button>
+                            </FormGroup>
+
+                        </Form>
+                    </div>
+                </Card.Body>
+            </Card>
         </div>
     )
 }

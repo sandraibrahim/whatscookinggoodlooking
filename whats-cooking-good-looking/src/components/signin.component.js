@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../auth-provider";
+import Card from "react-bootstrap/Card";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import "../styles/signin.css";
+import FormGroup from 'react-bootstrap/esm/FormGroup';
+import CardHeader from 'react-bootstrap/esm/CardHeader';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 /*
 FUNCTION/COMPONENT NAME
@@ -61,24 +68,44 @@ export default function SignIn() {
   return (
     // Creates a sign in form.
     <div className="login-wrapper">
-      <h1>Please Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Username</p>
-          <input type="text" onChange={e => setUserName(e.target.value)} />
-        </label>
-        <label>
-          <p>Password</p>
-          <input type="password" onChange={e => setPassword(e.target.value)} />
-        </label>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
-      {/* If user does not have account they can naviagate to the sign up page. */}
-      <button color="primary" className="px-4" onClick={() => navigate("signup")}>
-        Don't have an account? Sign Up!
-      </button>
+      <Card>
+        <CardHeader className='header'>
+          <div className='header'>Sign In</div>
+        </CardHeader>
+        <Card.Body className='card-content'>
+          <div className="card-content">
+            <Form onSubmit={handleSubmit}>
+              <FormGroup>
+                <div className='input-divider'>
+                  <InputGroup className="mb-3">
+                    <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
+                    <Form.Control className="input-size" type="text" placeholder="Username" onChange={e => setUserName(e.target.value)} />
+                  </InputGroup>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className='input-divider'>
+                  <InputGroup className="mb-3">
+                    <InputGroup.Text id="basic-addon1">#</InputGroup.Text>
+                    <Form.Control className="input-size" type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                  </InputGroup>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <div className='input-divider'>
+                  <Button variant="outline-secondary" size="lg" type="submit">Log In</Button>
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <Button variant="link" className="px-4" onClick={() => navigate("signup")}>
+                  Don't have an account? Sign Up!
+                </Button>
+              </FormGroup>
+            </Form>
+
+          </div>
+        </Card.Body>
+      </Card>
     </div >
 
   )

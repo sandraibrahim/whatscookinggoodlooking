@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocalStorage } from "../auth";
-import Navbar from './navbar.component';
+import AppNavBar from './AppNavBar.component';
 
 const openUrlWithID = id => {
     let payload = {
@@ -70,7 +70,7 @@ export default function SavedRecipe(props) {
     const [recipes, setRecipes] = useState([]);
 
     // Sets parameter to be the user id of the current user.
-    const params = { user: user.data.message._id };
+    const params = { user: user.data.result._id };
 
     // Called as soon as the component runs.
     useEffect(() => {
@@ -104,7 +104,7 @@ export default function SavedRecipe(props) {
     return (
         // Creates a table.
         <div>
-            <Navbar />
+            <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
             <h3>Your Favorite Recipes!</h3>
             <table className="table">
                 <thead className="thead-light">

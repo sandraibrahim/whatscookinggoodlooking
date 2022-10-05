@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import Navbar from './navbar.component';
+import AppNavBar from './AppNavBar.component.js';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../auth";
 import "react-datepicker/dist/react-datepicker.css";
@@ -68,7 +68,7 @@ export default function AddIngredient() {
             quantity: quantity,
             name: name,
             expiration_date: expiration,
-            uid: user.data.message._id
+            uid: user.data.result._id
         }
 
         // Sends object to get added in server.
@@ -80,7 +80,7 @@ export default function AddIngredient() {
     return (
         // Creates a form.
         <div>
-            <Navbar />
+            <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
             <h3>Add New Ingredient</h3>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
