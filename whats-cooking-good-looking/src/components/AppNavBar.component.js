@@ -34,7 +34,16 @@ export default function AppNavBar(props) {
     // Creates NavBar.
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/ingredients">What's Cooking Good Looking?</Navbar.Brand>
+        <Navbar.Brand href="/ingredients">
+          <img
+            alt=""
+            src={require('../assets/logo.png')}
+            width="100"
+            height="60"
+            className="d-inline-block align-top"
+          />
+        </Navbar.Brand>
+        <Navbar.Brand>What's Cooking Good Looking?</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

@@ -12,13 +12,6 @@
   margin-right: 100px;
 }
 
-th {
-  text-align: center;
-}
-td {
-  text-align: center;
-}
-
-.seperate-buttons {
+.input-divider {
   padding: 5px;
 }

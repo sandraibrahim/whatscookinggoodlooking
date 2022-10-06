@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocalStorage } from "../auth";
 import AppNavBar from './AppNavBar.component.js';
+import Card from "react-bootstrap/Card";
+import CardHeader from 'react-bootstrap/esm/CardHeader';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
+import "../styles/recipe_search.css";
 
 // import IngredientsList from './ingredients-list.component';
 
@@ -23,17 +28,26 @@ const openUrlWithID = id => {
 
 const Recipe = props => (
     <tr>
+        <td>
+            <img
+                src={props.recipe.image}
+                alt={`${props.recipe.title}`}
+                width="200px"
+                height="200px"
+            />
+        </td>
+
         <td>{props.recipe.title}</td>
-        <img
-            src={props.recipe.image}
-            alt={`${props.recipe.title}`}
-        />
-        <button onClick={() => openUrlWithID(props.recipe.id)}>
-            See Recipe
-        </button>
-        <button onClick={() => props.saverecipe(props.recipe.title, props.recipe.image, props.recipe.id)}>
-            Save Recipe
-        </button>
+        <td>
+            <Button variant="outline-primary" onClick={() => openUrlWithID(props.recipe.id)}>
+                See Recipe
+            </Button>
+            <span className='seperate-buttons'></span>
+            <Button variant="outline-dark" onClick={() => props.saverecipe(props.recipe.title, props.recipe.image, props.recipe.id)}>
+                Save Recipe
+            </Button>
+        </td>
+
     </tr>
 )
 
@@ -73,7 +87,7 @@ export default function RecipeSearch(props) {
         const recipe = {
             id: id,
             title: title,
-            user: user.data.message._id,
+            user: user.data.result._id,
             image: image
         }
 
@@ -102,17 +116,24 @@ export default function RecipeSearch(props) {
     return (
         <div>
             <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
-            <h3>Your Recipes</h3>
-            <table className="table">
-                <thead className="thead-light">
-                    <tr>
-                        <th>Recipe Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {recipesList()}
-                </tbody>
-            </table>
+            <Card className='card-wrapper'>
+                <CardHeader className='header'>
+                    <div className='header'>Recipes Found</div>
+                </CardHeader>
+                <Table className="table" striped hover>
+                    <thead className="thead-light">
+                        <tr>
+                            <th>Sneak Peak</th>
+                            <th>Recipe Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {recipesList()}
+                    </tbody>
+                </Table>
+            </Card>
+
         </div>
     )
 }

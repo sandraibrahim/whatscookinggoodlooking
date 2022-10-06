@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import Navbar from './AppNavBar.component.js';
+import AppNavBar from './AppNavBar.component.js';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../auth";
 import "react-datepicker/dist/react-datepicker.css";
+import Card from "react-bootstrap/Card";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import "../styles/addingredient.css";
+import FormGroup from 'react-bootstrap/esm/FormGroup';
+import CardHeader from 'react-bootstrap/esm/CardHeader';
+import InputGroup from 'react-bootstrap/InputGroup';
 
 /*
 FUNCTION/COMPONENT NAME
@@ -99,63 +106,65 @@ export default function EditIngredients(props) {
   return (
     // Creates a form.
     <div>
-      <Navbar user={user.data.result.first_name + " " + user.data.result.last_name} />
-      <h3>Edit Ingredient List</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Category: </label>
-          <select
-            required
-            className="form-control"
-            value={category}
+      <div>
+        <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
+        <Card className='card-wrapper'>
+          <CardHeader className='header'>
+            <div className='header'>Edit Ingredient</div>
+          </CardHeader>
+          <Form onSubmit={handleSubmit}>
+            <div className="input-divider">
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1">Category</InputGroup.Text>
+                <Form.Select
+                  required
+                  className="form-control"
+                  value={category}
 
-            // Lists Categories
-            onChange={(e) => setCategory(e.target.value)}>
-            {
-              options.map(function (option) {
-                return <option
-                  value={option.value} key={option.value}>{option.label}
-                </option>;
-              })
-            }
-          </select>
-        </div>
+                  // Lists Categories
+                  onChange={(e) => setCategory(e.target.value)}>
+                  {
+                    options.map(function (option) {
+                      return <option
+                        value={option.value} key={option.value}>{option.label}
+                      </option>;
+                    })
+                  }
+                </Form.Select>
+              </InputGroup>
+            </div>
+            <div className="input-divider">
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1">Ingredient Name</InputGroup.Text>
+                <Form.Control type="text" required value={name} onChange={(e) => setName(e.target.value)} />
+              </InputGroup>
+            </div>
+            <div className="input-divider">
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1">Quantity</InputGroup.Text>
+                <Form.Control type="text" required value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+              </InputGroup>
+            </div>
+            <div className="input-divider">
+              <InputGroup className="mb-3">
+                <InputGroup.Text id="basic-addon1">Expiration Date</InputGroup.Text>
+                <DatePicker
+                  selected={expiration}
+                  onChange={(date) => setExpiration(date)}
+                />
+              </InputGroup>
+            </div>
+            <FormGroup>
+              <div className='input-divider'>
+                <Button variant="outline-info" type="submit" value="Add Ingredient">Edit Ingredient!</Button>
+              </div>
+            </FormGroup>
 
-        <div className="form-group">
-          <label>Quantity: </label>
-          <input type="text"
-            required
-            className="form-control"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Ingredient Name: </label>
-          <input type="text"
-            required
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Expiration Date: </label>
-          <div>
-            <DatePicker
-              selected={expiration}
-              onChange={(date) => setExpiration(date)}
-            />
-          </div>
-        </div>
-
-        <div className="form-group">
-          <input type="submit" value="Edit Ingredient" className="btn btn-primary" />
-        </div>
-      </form>
+          </Form>
+        </Card>
+      </div>
     </div>
+
   )
 
 }

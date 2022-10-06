@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useLocalStorage } from "../auth";
 import AppNavBar from './AppNavBar.component.js';
 import Card from "react-bootstrap/Card";
 import CardHeader from 'react-bootstrap/esm/CardHeader';
+import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 import "../styles/ingredient-list.css";
 
 // Prints out ingredients in organized way with delete and edit buttons. 
@@ -15,11 +16,11 @@ const Ingredient = props => (
         <td>{props.ingredients.name}</td>
         <td>{props.ingredients.expiration_date.substring(0, 10)}</td>
         <td>
-            <Link to={"/edit/" + props.ingredients._id}> Edit </Link>
-            |
-            <button onClick={() => { props.deleteIngredient(props.ingredients._id) }}>Delete</button>
+            <Button variant="outline-info" onClick={() => { window.location = "/edit/" + props.ingredients._id }}>Edit</Button>
+            <span className='seperate-buttons'></span>
+            <Button variant="outline-danger" onClick={() => { props.deleteIngredient(props.ingredients._id) }}>Delete</Button>
         </td>
-    </tr>
+    </tr >
 )
 
 /*
@@ -50,7 +51,6 @@ export default function IngredientsList(props) {
     const [ingredients, setIngredients] = useState([]);
 
     // Sets parameter to be the user id of the current user.
-    console.log(user);
     const params = { uid: user.data.result._id };
 
     // Called as soon as the component runs.
@@ -75,6 +75,7 @@ export default function IngredientsList(props) {
         setIngredients(ingredients.filter(el => el._id !== id));
     }
 
+
     // Grabs list of users ingredients.
     const ingredientList = () => {
         return ingredients.map(currentingredient => {
@@ -84,14 +85,13 @@ export default function IngredientsList(props) {
 
     return (
         // Creates a table.
-
         <div>
             <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
             <Card className='card-wrapper'>
                 <CardHeader className='header'>
                     <div className='header'>Your Pantry</div>
                 </CardHeader>
-                <table className="table">
+                <Table className="table" striped hover>
                     <thead className="thead-light">
                         <tr>
                             <th>Category</th>
@@ -104,7 +104,7 @@ export default function IngredientsList(props) {
                     <tbody>
                         {ingredientList()}
                     </tbody>
-                </table>
+                </Table>
             </Card>
 
         </div>
