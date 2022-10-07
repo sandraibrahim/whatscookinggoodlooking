@@ -33,7 +33,7 @@ export default function Splash(props) {
 
     const getJoke = () => {
 
-        axios.get('https://api.humorapi.com/jokes/random/?api-key=aa6b6e8570ca402c859a512d9cb1c93a&include-tags=food')
+        axios.get('https://api.humorapi.com/jokes/random/?api-key=aa6b6e8570ca402c859a512d9cb1c93a&include-tags=food,clean&exclude-tags=nsfw,racist,dark,religious,sexist,jewish,sexual,yo-momma,insults')
             .then(response => {
                 setJoke(response.data.joke);
             })
