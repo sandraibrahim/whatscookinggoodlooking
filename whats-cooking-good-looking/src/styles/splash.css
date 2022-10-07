@@ -1,0 +1,38 @@
+.card-wrapper {
+  margin-top: 200px;
+  margin-left: 300px;
+  margin-right: 300px;
+  padding: 50px;
+  text-align: center;
+}
+body {
+  background-image: url("../assets/signinbackground.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.card-content {
+  text-align: center;
+  background-color: whitesmoke;
+}
+.input-divider {
+  padding: 10px;
+}
+.header {
+  font-family: fantasy;
+  font-weight: bold;
+  text-align: center;
+  font-size: xx-large;
+  background-color: lightgray;
+}
+
+.button {
+  width: fit-content;
+}
+
+.button-container {
+  align-items: center;
+  padding: 15px;
+}
+.spacing {
+  padding: 25px;
+}

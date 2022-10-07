@@ -73,7 +73,6 @@ export default function RecipeSearch(props) {
                 }
                 axios.get('https://api.spoonacular.com/recipes/findByIngredients', { params: payload })
                     .then(response => {
-                        // console.log(response);
                         setRecipes(response.data);
                     })
                     .catch(function (error) {

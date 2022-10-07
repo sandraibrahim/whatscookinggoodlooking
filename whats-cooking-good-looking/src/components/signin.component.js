@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../auth-provider";
 import Card from "react-bootstrap/Card";
 import Button from 'react-bootstrap/Button';
@@ -9,6 +8,7 @@ import "../styles/signin.css";
 import FormGroup from 'react-bootstrap/esm/FormGroup';
 import CardHeader from 'react-bootstrap/esm/CardHeader';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Alert from 'react-bootstrap/Alert';
 
 /*
 FUNCTION/COMPONENT NAME
@@ -27,15 +27,14 @@ DESCRIPTION
     all of their information specifically and sets it to local storage to be used.
 */
 export default function SignIn() {
-  // Allows window to navigate to different pages on app .
-  let navigate = useNavigate();
-
   // Authentication.
   const auth = useAuth();
 
   // Hooks.
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const [error, setError] = useState();
+  const [show, setShow] = useState(false);
 
 
   // Called when user submits form.
@@ -51,16 +50,20 @@ export default function SignIn() {
       })
       .catch(function (error) {
         if (error.response.status === 422) {
-          console.log("Missing Username and/or Password!")
+          setError("Missing Username and/or Password!");
+          setShow(true);
         }
         else if (error.response.status === 404) {
-          console.log("User not found :((")
+          setError("User not found :((");
+          setShow(true);
         }
         else if (error.response.status === 400) {
-          console.log("Incorrect Password")
+          setError("Incorrect Password");
+          setShow(true);
         }
         else {
-          console.log("Something went wrong. Please try again.")
+          setError("Something went wrong. Please try again.");
+          setShow(true);
         }
       })
   }
@@ -68,6 +71,17 @@ export default function SignIn() {
   return (
     // Creates a sign in form.
     <div className="login-wrapper">
+
+      <Alert show={show} variant="danger">
+        <p>{error}</p>
+        <div className="d-flex justify-content-end">
+          <Button onClick={() => setShow(false)} variant="outline-danger">
+            Close
+          </Button>
+        </div>
+      </Alert>
+
+
       <Card>
         <CardHeader className='header'>
           <div className='header'>Sign In</div>
@@ -97,7 +111,7 @@ export default function SignIn() {
                 </div>
               </FormGroup>
               <FormGroup>
-                <Button variant="link" className="px-4" onClick={() => navigate("signup")}>
+                <Button variant="link" className="px-4" onClick={() => window.location = '/signup'}>
                   Don't have an account? Sign Up!
                 </Button>
               </FormGroup>

@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     // Call this function when you want to authenticate the user.
     const login = async (data) => {
         setUser(data);
-        navigate("/ingredients");
+        navigate("/");
     };
 
     // Call this function to sign out logged in user.

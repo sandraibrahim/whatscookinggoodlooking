@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../auth-provider";
 import Card from "react-bootstrap/Card";
 import Button from 'react-bootstrap/Button';
@@ -9,6 +8,7 @@ import "../styles/signup.css";
 import FormGroup from 'react-bootstrap/esm/FormGroup';
 import CardHeader from 'react-bootstrap/esm/CardHeader';
 import InputGroup from 'react-bootstrap/InputGroup';
+import Alert from 'react-bootstrap/Alert';
 
 /*
 FUNCTION/COMPONENT NAME
@@ -30,7 +30,6 @@ DESCRIPTION
         to access the app.
 */
 export default function SignUp() {
-    let navigate = useNavigate();
     // Authentication.
     const auth = useAuth();
 
@@ -40,6 +39,8 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [first_name, setfirst_name] = useState("");
     const [last_name, setlast_name] = useState("");
+    const [error, setError] = useState();
+    const [show, setShow] = useState(false);
 
     // Called when user submits form.
     const handleSubmit = async e => {
@@ -63,13 +64,16 @@ export default function SignUp() {
             )
             .catch(function (error) {
                 if (error.response.status === 422) {
-                    console.log("Missing Required Credentials")
+                    setError("Missing Required Credentials");
+                    setShow(true);
                 }
                 else if (error.response.status === 400) {
-                    console.log("Email already exists, try signing in.")
+                    setError("Email already exists, try signing in.");
+                    setShow(true);
                 }
                 else {
-                    console.log("Something went wrong. Please try again.")
+                    setError("Something went wrong. Please try again.");
+                    setShow(true);
                 }
             })
     }
@@ -77,6 +81,14 @@ export default function SignUp() {
     return (
         // Creates a sign up form.
         <div className="login-wrapper">
+            <Alert show={show} variant="danger">
+                <p>{error}</p>
+                <div className="d-flex justify-content-end">
+                    <Button onClick={() => setShow(false)} variant="outline-danger">
+                        Close
+                    </Button>
+                </div>
+            </Alert>
             <Card>
                 <CardHeader className='header'>
                     <div className='header'>Sign Up</div>
@@ -124,7 +136,7 @@ export default function SignUp() {
                                 </div>
                             </FormGroup>
                             <FormGroup>
-                                <Button variant="link" className="px-4" onClick={() => navigate("/")}>
+                                <Button variant="link" className="px-4" onClick={() => window.location = '/signin'}>
                                     Already have an account? Sign In Here!
                                 </Button>
                             </FormGroup>
@@ -133,6 +145,6 @@ export default function SignUp() {
                     </div>
                 </Card.Body>
             </Card>
-        </div>
+        </div >
     )
 }

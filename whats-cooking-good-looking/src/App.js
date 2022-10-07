@@ -11,6 +11,7 @@ import { ProtectedRoute } from "./protected-route.component";
 import { AuthProvider } from "./auth-provider";
 import RecipeSearch from './components/recipe_search.component';
 import SavedRecipe from './components/saved_recipes.component';
+import Splash from './components/splash.component';
 
 /*
 FUNCTION
@@ -27,9 +28,17 @@ function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="signup" element={<SignUp />} />
 
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Splash />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="ingredients"
           element={
