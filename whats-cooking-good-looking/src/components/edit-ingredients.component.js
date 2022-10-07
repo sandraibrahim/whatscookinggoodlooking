@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
 import AppNavBar from './AppNavBar.component.js';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from "../auth";
@@ -148,10 +147,7 @@ export default function EditIngredients(props) {
             <div className="input-divider">
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1">Expiration Date</InputGroup.Text>
-                <DatePicker
-                  selected={expiration}
-                  onChange={(date) => setExpiration(date)}
-                />
+                <Form.Control type="date" placeholder='Please select a date' onChange={(date) => setExpiration(date.target.value)} />
               </InputGroup>
             </div>
             <FormGroup>

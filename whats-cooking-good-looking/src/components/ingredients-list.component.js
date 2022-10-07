@@ -89,7 +89,9 @@ export default function IngredientsList(props) {
             <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
             <Card className='card-wrapper'>
                 <CardHeader className='header'>
-                    <div className='header'>Your Pantry</div>
+                    <div className='header'>
+                        Your Pantry
+                    </div>
                 </CardHeader>
                 <Table className="table" striped hover>
                     <thead className="thead-light">

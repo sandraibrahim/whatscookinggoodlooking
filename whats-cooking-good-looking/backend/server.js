@@ -28,7 +28,6 @@ connection.once('open', () => {
 // Routing.
 const recipesRouter = require('./routes/recipes');
 const ingredientsRouter = require('./routes/ingredients');
-const affirmationsRouter = require('./routes/affirmations');
 const signinRouter = require('./routes/signin');
 const signupRouter = require('./routes/signup');
 const splashRouter = require('./routes/splash');
@@ -37,7 +36,6 @@ app.use('/signin', signinRouter);
 app.use('/signup', signupRouter);
 app.use('/recipes', recipesRouter);
 app.use('/ingredients', ingredientsRouter);
-app.use('/affirmations', affirmationsRouter);
 app.use('/splash', splashRouter);
 
 

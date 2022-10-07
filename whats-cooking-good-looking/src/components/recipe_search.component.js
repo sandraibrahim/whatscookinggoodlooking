@@ -7,6 +7,8 @@ import Card from "react-bootstrap/Card";
 import CardHeader from 'react-bootstrap/esm/CardHeader';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
+import Container from 'react-bootstrap/Container';
 import "../styles/recipe_search.css";
 
 // Prints out ingredients in organized way with delete and edit buttons. 
@@ -44,6 +46,7 @@ const Recipe = props => (
             <Button variant="outline-dark" onClick={() => props.saverecipe(props.recipe.title, props.recipe.image, props.recipe.id)}>
                 Save Recipe
             </Button>
+
         </td>
 
     </tr>
@@ -71,6 +74,9 @@ export default function RecipeSearch(props) {
     const [user] = useLocalStorage("user", null);
     const params = { uid: user.data.result._id };
     let ingredientlist = "";
+    const [show, setShow] = useState(false);
+    const toggleShow = () => setShow(!show);
+    const [alert_message, setAlert] = useState('');
 
     // Hook.
     const [recipes, setRecipes] = useState([]);
@@ -108,13 +114,18 @@ export default function RecipeSearch(props) {
 
         // Calls server to delete current ingredient.
         axios.post('http://localhost:8080/recipes/saverecipe', recipe)
-            .then(res => console.log(res.data))
+            .then(res => {
+                setAlert("Recipe Saved!");
+                toggleShow();
+            })
             .catch(function (error) {
                 if (error.response.status === 405) {
-                    console.log("Recipe already saved!")
+                    setAlert("Recipe already saved!");
+                    toggleShow();
                 }
                 else {
-                    console.log("Something went wrong. Please try again.")
+                    setAlert("Something went wrong. Please try again.");
+                    toggleShow();
                 }
             });
 
@@ -132,6 +143,14 @@ export default function RecipeSearch(props) {
         <div>
             <AppNavBar user={user.data.result.first_name + " " + user.data.result.last_name} />
             <Card className='card-wrapper'>
+                <Container className="save-container">
+                    <Alert show={show} variant="success" className='save-alert' onClose={() => setShow(false)} dismissible>
+                        <p>{alert_message}</p>
+                        <div className="d-flex justify-content-end">
+                        </div>
+                    </Alert>
+                </Container>
+
                 <CardHeader className='header'>
                     <div className='header'>Recipes Found</div>
                 </CardHeader>

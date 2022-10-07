@@ -22,3 +22,7 @@ td {
 .seperate-buttons {
   padding: 5px;
 }
+
+.save-container {
+  justify-content: center;
+}

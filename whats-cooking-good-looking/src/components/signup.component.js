@@ -81,12 +81,9 @@ export default function SignUp() {
     return (
         // Creates a sign up form.
         <div className="login-wrapper">
-            <Alert show={show} variant="danger">
+            <Alert show={show} variant="danger" onClose={() => setShow(false)} dismissible>
                 <p>{error}</p>
                 <div className="d-flex justify-content-end">
-                    <Button onClick={() => setShow(false)} variant="outline-danger">
-                        Close
-                    </Button>
                 </div>
             </Alert>
             <Card>
