@@ -10,22 +10,16 @@ import Container from 'react-bootstrap/esm/Container';
 
 /*
 FUNCTION/COMPONENT NAME
-    IngredientsList - allows user to edit existing ingredient from their 
-    "pantry" and updates the database
+    Splash - ranadomly generates a joke of the day
 
 SYNOPSIS
-    IngredientsList variables   
-        category --> category/type of ingredeient
-        quantity --> amount of ingredeient
-        name --> name of ingredient
-        expiration_date --> expiration date of ingredient     
-        options --> list of category options                                                   
+    Splash variables   
+        category --> the random joke                                                
 
 DESCRIPTION
-        This function takes care of creating a form and filling it in with
-        the existing values of the ingredient they would like to edit/update.
-        When they edit the form with their updates it will call the server to then 
-        update the information in the database. 
+        This function is the home page of the app. This page consists
+        of a random food joke of the day for the users enjoyment. You can 
+        navigate to any section of the app through the navbar on this page.
 */
 
 export default function Splash(props) {

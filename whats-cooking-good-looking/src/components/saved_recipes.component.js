@@ -50,22 +50,17 @@ const Recipe = props => (
 
 /*
 FUNCTION/COMPONENT NAME
-    RecipesList - allows user to edit existing ingredient from their 
-    "pantry" and updates the database
+    SavedRecipe - shows a list of recipes the user saved
 
 SYNOPSIS
-    RecipesList variables   
-        category --> category/type of ingredeient
-        quantity --> amount of ingredeient
-        name --> name of ingredient
-        expiration_date --> expiration date of ingredient     
-        options --> list of category options                                                   
+    RecipeSearch variables   
+        recipes --> list of recipes found                                                 
 
 DESCRIPTION
-        This function takes care of creating a form and filling it in with
-        the existing values of the ingredient they would like to edit/update.
-        When they edit the form with their updates it will call the server to then 
-        update the information in the database. 
+        This function takes care of listing the recipes the user chose to
+        save from the recipe search component. As soon as you navigate to this page, 
+        it automatically lists out all of the recipes that were saved. You are able 
+        to see the recipe and delete the recipe from your saved list.
 */
 
 export default function SavedRecipe(props) {

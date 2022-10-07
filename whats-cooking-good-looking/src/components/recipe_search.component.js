@@ -9,8 +9,6 @@ import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import "../styles/recipe_search.css";
 
-// import IngredientsList from './ingredients-list.component';
-
 // Prints out ingredients in organized way with delete and edit buttons. 
 const openUrlWithID = id => {
     let payload = {
@@ -50,6 +48,24 @@ const Recipe = props => (
 
     </tr>
 )
+
+
+
+/*
+FUNCTION/COMPONENT NAME
+    RecipeSearch - shows a list of recipes using the users pantry 
+    ingredients
+
+SYNOPSIS
+    RecipeSearch variables   
+        recipes --> list of recipes found                                                 
+
+DESCRIPTION
+        This function takes care of searching for recipes based on
+        your pantry. As soon as you navigate to this page, it automatically
+        lists out all of the recipes that were found (through the Spoonacular API).
+        You are able to see the recipe and save the recipe from this page.
+*/
 
 export default function RecipeSearch(props) {
     const [user] = useLocalStorage("user", null);

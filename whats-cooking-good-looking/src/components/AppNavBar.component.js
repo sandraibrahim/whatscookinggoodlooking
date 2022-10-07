@@ -47,10 +47,10 @@ export default function AppNavBar(props) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/ingredients">Ingredients</Nav.Link>
+            <Nav.Link href="/ingredients">Pantry</Nav.Link>
             <Nav.Link href="/addingredient">Add Ingredient</Nav.Link>
             <Nav.Link href="/recipes">Search Recipes</Nav.Link>
-            <Nav.Link href="/saverecipe">Your Saved Recipes</Nav.Link>
+            <Nav.Link href="/saverecipe">Saved Recipes</Nav.Link>
 
           </Nav>
         </Navbar.Collapse>
